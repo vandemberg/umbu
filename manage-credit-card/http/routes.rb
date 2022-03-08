@@ -1,0 +1,5 @@
+require_relative "responsibles"
+require_relative "users"
+require_relative "healthy"
+require_relative "deposit"
+require_relative "resume"
