@@ -1,2 +1,0 @@
-post '/responsibles' do
-end
