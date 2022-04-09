@@ -1,0 +1,5 @@
+Actions to complete store buy:
+  ✔ Validation credit card code @done(22-03-27 01:32)
+  ✔ Set a account basead in the credit card code @done(22-03-27 01:33)
+  ☐ Check if the account have money enough
+  ✔ Show errors validation @done(22-03-27 01:43)
