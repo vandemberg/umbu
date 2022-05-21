@@ -1,18 +1,20 @@
 class StoreBuysController < ApplicationController
   def create
-    credit_card_token = request.headers["Credit-Card-Token"]
-    store_buy, errors = RegisterStoreBuy.call(store_buy_params, credit_card_token)
-
-    if errors.present?
-      return render(json: errors, status: 422)
-    end
-
-    render(json: store_buy, status:  :created)
+    render(json: {
+      register_bougut: {
+        uuid: '',
+        date: Time.now,
+        success: true,
+      }
+    }, status:  :created)
   end
 
   private
 
   def store_buy_params
-    params.require(:store_buy).permit(:store, :price)
+    params.require(:bought).permit(
+      machine: [:times, :price, :machine_key],
+      credit_card: [:date, :number, :security_number]
+    )
   end
 end

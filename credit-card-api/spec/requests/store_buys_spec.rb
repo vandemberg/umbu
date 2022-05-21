@@ -1,72 +1,55 @@
 require 'rails_helper'
+require 'swagger_helper'
 
 RSpec.describe "StoreBuys", type: :request do
-  let(:store_buy_params_nil) {
+  let(:bought) {
     {
-      store_buy: {
-        store: nil,
-        price: nil,
-      }
+      credit_card: {
+        date: Time.now,
+        number: Faker::Bank.account_number,
+        security_number: Faker::Bank.account_number(digits: 3),
+      },
+      partner_store: {
+        price: Faker::Commerce.price,
+        machine_key: Faker::IDNumber.valid,
+      },
     }
   }
 
-  let(:store_buy_params) {
-    {
-      store_buy: {
-        store: Faker::Company.name,
-        price: Faker::Number.number(digits: 4),
-      }
-    }
-  }
-
-  let(:headers) {
-    { 'Credit-Card-Token': 'abc123' }
-  }
-
-  let(:headers_invalid) {
-    { 'Credit-Card-Token': '1231231' }
-  }
-
-  context "Valid requests" do
+  path "/store_buys" do
     describe "POST /create" do
-      it 'Should created store buys' do
-        post('/store_buys', params: store_buy_params, headers: headers)
+      post 'Register a bought try' do
+        tags 'Store Buys'
+        consumes 'application/json'
 
-        content = JSON.parse(response.body)
+        parameter name: :bought, in: :body, schema: {
+          type: :object,
+          properties: {
+            credit_card: {
+              type: :object,
+              properties: {
+                date: { type: :string },
+                number: { type: :string },
+                security_number: { type: :string },
+              },
+              required: ['date', 'number', 'security_number']
+            },
+            partner_store: {
+              type: :object,
+              properties: {
+                times: { type: :integer },
+                price: { type: :integer },
+                machine_key: { type: :string },
+              },
+              required: ['times', 'price', 'machine_key']
+            },
+          },
+          required: ['credit_card', 'partner_store']
+        }
 
-        expect(response).to have_http_status(:created)
-        expect(content['store']).to eq(store_buy_params[:store_buy][:store])
-        expect(content['price']).to eq(store_buy_params[:store_buy][:price])
-      end
-    end
-  end
-
-  context "Unvalid context" do
-    describe "POST /create" do
-      it 'Should NOT validate the credit card token' do
-        post('/store_buys', params: store_buy_params, headers: headers_invalid)
-        expect(response).to have_http_status(422)
-      end
-
-      it 'Should NOT create store buys with nil values' do
-        post('/store_buys', params: store_buy_params_nil, headers: headers)
-
-        expect(response).to have_http_status(422)
-      end
-
-      it "Should NOT create store with negative price" do
-        store_buy_params[:store_buy][:store] = Faker::Company.name
-        store_buy_params[:store_buy][:price] = 0
-
-        post('/store_buys', params: store_buy_params, headers: headers)
-        expect(response).to have_http_status(422)
-      end
-
-      it 'Should NOT be a valid credit' do
-        attributes =  store_buy_params
-        attributes[:store_buy][:price] = 1_000_000_000
-        post('/store_buys', params: attributes, headers: headers)
-        expect(response).to have_http_status(422)
+        response '201', 'store buy created' do
+          run_test!
+        end
       end
     end
   end
