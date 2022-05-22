@@ -2,11 +2,12 @@ require 'rails_helper'
 require 'swagger_helper'
 
 RSpec.describe "StoreBuys", type: :request do
-  let(:bought) {
+  let(:store_buy) {
     {
+      store_key: "abc123",
       credit_card: {
         date: Time.now,
-        number: Faker::Bank.account_number,
+        code: "abc123",
         security_number: Faker::Bank.account_number(digits: 3),
       },
       partner_store: {
@@ -18,33 +19,32 @@ RSpec.describe "StoreBuys", type: :request do
 
   path "/store_buys" do
     describe "POST /create" do
-      post 'Register a bought try' do
+      post 'Register a store_buy try' do
         tags 'Store Buys'
         consumes 'application/json'
 
-        parameter name: :bought, in: :body, schema: {
+        parameter name: :store_buy, in: :body, schema: {
           type: :object,
           properties: {
+            store_key: { type: :string },
             credit_card: {
               type: :object,
               properties: {
                 date: { type: :string },
-                number: { type: :string },
+                code: { type: :string },
                 security_number: { type: :string },
               },
-              required: ['date', 'number', 'security_number']
+              required: ['date', 'code', 'security_number']
             },
-            partner_store: {
+            buy: {
               type: :object,
               properties: {
-                times: { type: :integer },
                 price: { type: :integer },
-                machine_key: { type: :string },
               },
-              required: ['times', 'price', 'machine_key']
+              required: ['price']
             },
           },
-          required: ['credit_card', 'partner_store']
+          required: ['credit_card', 'buy']
         }
 
         response '201', 'store buy created' do

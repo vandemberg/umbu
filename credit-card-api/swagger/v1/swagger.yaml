@@ -6,7 +6,7 @@ info:
 paths:
   "/store_buys":
     post:
-      summary: Register a bought try
+      summary: Register a store_buy try
       tags:
       - Store Buys
       parameters: []
@@ -19,6 +19,8 @@ paths:
             schema:
               type: object
               properties:
+                store_key:
+                  type: string
                 credit_card:
                   type: object
                   properties:
@@ -32,22 +34,16 @@ paths:
                   - date
                   - number
                   - security_number
-                partner_store:
+                buy:
                   type: object
                   properties:
-                    times:
-                      type: integer
                     price:
                       type: integer
-                    machine_key:
-                      type: string
                   required:
-                  - times
                   - price
-                  - machine_key
               required:
               - credit_card
-              - partner_store
+              - buy
 servers:
 - url: https://{defaultHost}
   variables:
