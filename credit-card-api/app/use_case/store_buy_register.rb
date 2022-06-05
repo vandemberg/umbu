@@ -15,7 +15,8 @@ class StoreBuyRegister < Rails::UseCase
     owner = { id: 1, name: 'vandemberg', balance: 1000 }
     credit_cards = { 'abc123': { owner: owner } }
 
-    self.credit_card_owner  = credit_cards[self.card_credit][:onwer]
+    credit_card_key = self.credit_card[:number].to_sym
+    self.credit_card_owner = credit_cards[credit_card_key][:onwer]
   end
 
   private def register_buy

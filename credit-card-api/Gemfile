@@ -18,11 +18,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 
-gem 'multi_json', '~> 1.11', '>= 1.11.2'
-gem 'rswag'
-gem 'rswag-api'
-gem 'rswag-ui'
-
+# Apply use case partner in rails project
 gem 'rails_use_case'
 
 group :development, :test do
@@ -31,7 +27,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
-  gem 'rswag-specs'
 end
 
 group :test do
