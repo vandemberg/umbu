@@ -8,7 +8,7 @@ RSpec.describe "Store buy actions", :type => :request do
         buy: {
           price: 1_000
         },
-        credit_card: {
+        debit_card: {
           date: '10/2022',
           number: 'abc123',
           security_number: '123',

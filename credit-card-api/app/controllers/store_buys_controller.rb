@@ -3,7 +3,7 @@ class StoreBuysController < ApplicationController
     StoreBuyRegister.perform(
       store_client_key: store_client_key,
       buy: store_buy_params['buy'],
-      credit_card: store_buy_params['credit_card']
+      debit_card: store_buy_params['debit_card']
     )
 
     render(json: {
@@ -21,7 +21,7 @@ class StoreBuysController < ApplicationController
     params.require(:store_buy).permit(
       :store_key,
       buy: [:price],
-      credit_card: [:date, :number, :security_number]
+      debit_card: [:date, :number, :security_number]
     )
   end
 end
