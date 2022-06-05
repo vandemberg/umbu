@@ -5,20 +5,15 @@ class StoreBuyRegister < Rails::UseCase
   validates :credit_card, presence: true
   validates :buy, presence: true
 
-  # TODO: create the database base
-  # record { CreditCardBuy.new }
+  validate :store_buy_key_valid?
+  validate :debit_card_valid?
 
-  step :verify_credit_card
-  step :register_buy
-
-  private def verify_credit_card
-    owner = { id: 1, name: 'vandemberg', balance: 1000 }
-    credit_cards = { 'abc123': { owner: owner } }
-
-    credit_card_key = self.credit_card[:number].to_sym
-    self.credit_card_owner = credit_cards[credit_card_key][:onwer]
+  private def store_buy_key_valid?
+    store_client = StoreClient.where({
+      key: store,
+    })
   end
 
-  private def register_buy
+  private def debit_card_valid?
   end
 end

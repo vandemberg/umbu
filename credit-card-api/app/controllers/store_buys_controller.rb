@@ -1,14 +1,7 @@
 class StoreBuysController < ApplicationController
   def create
-    stores = {
-      abc123: { name: 'vandemberg company' }
-    }
-
-    store = stores[store_buy_params['store_key'].to_sym]
-    return render({ json: { msg: 'fail' } }, 422) if store.blank?
-
     StoreBuyRegister.perform(
-      store: store,
+      store_client_key: store_client_key,
       buy: store_buy_params['buy'],
       credit_card: store_buy_params['credit_card']
     )
