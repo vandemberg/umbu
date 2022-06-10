@@ -1,10 +1,14 @@
 class StoreBuysController < ApplicationController
   def create
-    StoreBuyRegister.perform(
-      store_client_key: store_client_key,
-      buy: store_buy_params['buy'],
-      debit_card: store_buy_params['debit_card']
+    result = StoreBuyRegister.perform(
+      store_key: store_buy_params[:store_key],
+      buy: store_buy_params[:buy],
+      debit_card: store_buy_params[:debit_card]
     )
+
+    unless result.success
+      return render(json: result, status: 400)
+    end
 
     render(json: {
       register_bougut: {
@@ -21,7 +25,7 @@ class StoreBuysController < ApplicationController
     params.require(:store_buy).permit(
       :store_key,
       buy: [:price],
-      debit_card: [:date, :number, :security_number]
+      debit_card: [:expire_in, :serial_number, :security_number]
     )
   end
 end
