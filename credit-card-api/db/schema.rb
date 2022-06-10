@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_07_012851) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_10_025408) do
+  create_table "debit_cards", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "serial_number"
+    t.string "security_number"
+    t.date "expire_in"
+    t.bigint "user_id", null: false
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_debit_cards_on_user_id"
+  end
+
   create_table "store_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key"
     t.datetime "created_at", null: false
@@ -26,5 +37,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_07_012851) do
     t.integer "status"
   end
 
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "debit_cards", "users"
   add_foreign_key "store_keys", "stores"
 end
