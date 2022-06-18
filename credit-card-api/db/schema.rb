@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_10_025408) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_18_193038) do
   create_table "debit_cards", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "serial_number"
     t.string "security_number"
@@ -35,6 +35,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_10_025408) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status"
+  end
+
+  create_table "transactions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "origin"
+    t.string "uuid"
+    t.bigint "sponsor_id"
+    t.string "sponsor_type"
+    t.bigint "beneficiary_id"
+    t.string "beneficiary_type"
+    t.bigint "value"
+    t.string "agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

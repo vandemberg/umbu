@@ -12,8 +12,8 @@ class StoreBuysController < ApplicationController
 
     render(json: {
       register_bougut: {
-        uuid: '',
-        date: Time.now,
+        uuid: result.record.uuid,
+        date: result.record.created_at,
         success: true,
       }
     }, status:  :created)
