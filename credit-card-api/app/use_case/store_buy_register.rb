@@ -26,6 +26,8 @@ class StoreBuyRegister < Rails::UseCase
       beneficiary: self.store,
       value: self.buy[:price].to_i,
     )
+
+    @record.update(status: 0)
   end
 
   private def store_buy_key_valid?
